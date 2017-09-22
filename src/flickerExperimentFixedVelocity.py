@@ -86,7 +86,7 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
             256, 256) * 2.0 - 1.0, mask='circle', size=[experimentalInfo['BallRadius'] * 2, experimentalInfo['BallRadius'] * 2]))
 
     arrows = [visual.TextStim(
-        win, "<--", pos=[0, 0]), visual.TextStim(win, "-->", pos=[0, 0])]
+        win, "-->", pos=[0, 0]), visual.TextStim(win, "<--", pos=[0, 0])]
     # Initialize a color for the balls
     for ball in balls:
         ball.setColor('Black')
@@ -174,11 +174,11 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
         keys = event.getKeys()
         fixationBall.draw()
         if 's' in keys:
-            response = (sideIndex == (oddBallIndex < 2))
+            response = (sideIndex == (oddBallIndex >= 2))
             trialClock.reset()
             break
         if 'd' in keys:
-            response = (sideIndex == (oddBallIndex >= 2))
+            response = (sideIndex == (oddBallIndex < 2))
             trialClock.reset()
             break
         if 'escape' in keys:
@@ -187,6 +187,8 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
         if (experimentalInfo['SaveVideo']):
             win.getMovieFrame()
         win.flip()
+
+    print sideIndex,side,oddBallIndex,response
 
     if (experimentalInfo['SaveVideo']):
         import os
@@ -228,7 +230,7 @@ def startExperiment():
         # Do some training trials with no variation in speed
         for i in range(0, int(expInfo['TrainingTrials'])):
             flickerTrial(
-                win, expInfo, flickerFreq=1, side='Left', useOddBall=True)
+                win, expInfo, flickerFreq=1, side='Right', useOddBall=True)
 
         # Done with the training trials, now show some instructions and wait the
         # user to press spacebar to continue

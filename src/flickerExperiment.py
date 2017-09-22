@@ -100,8 +100,8 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
         noiseMaskStimuli.append(visual.GratingStim(win, pos=positions[i], units='cm',tex=np.random.rand(
             256, 256) * 2.0 - 1.0, mask='circle', size=[experimentalInfo['BallRadius'] * 2, experimentalInfo['BallRadius'] * 2]))
 
-    arrows = [visual.TextStim(win, "<--", pos=[0, 0]),
-              visual.TextStim(win, "-->", pos=[0, 0])]
+    arrows = [visual.TextStim(win, "-->", pos=[0, 0]),
+              visual.TextStim(win, "<--", pos=[0, 0])]
     # Initialize a color for the balls
     for ball in balls:
         ball.setColor('Black')
@@ -113,7 +113,7 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
     trialClock = core.Clock()
     trialClock.reset()
 
-    sideIndex = side == 'Left'
+    sideIndex = (side == 'Left')
     while (trialClock.getTime() < 2.0):
         arrows[sideIndex].draw()
         if (experimentalInfo['SaveVideo']):
@@ -185,15 +185,16 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
     trialClock = core.Clock()
     trialClock.reset()
     response = None
+
     while True:
         keys = event.getKeys()
         fixationBall.draw()
         if 's' in keys:
-            response = (sideIndex == (oddBallIndex < 2))
+            response = (sideIndex == (oddBallIndex >= 2))
             trialClock.reset()
             break
         if 'd' in keys:
-            response = (sideIndex == (oddBallIndex >= 2))
+            response = (sideIndex == (oddBallIndex < 2))
             trialClock.reset()
             break
         if 'escape' in keys:
@@ -202,6 +203,8 @@ def flickerTrial(win, experimentalInfo, flickerFreq, side, useOddBall):
         if (experimentalInfo['SaveVideo']):
             win.getMovieFrame()
         win.flip()
+    
+    print sideIndex,side,oddBallIndex,response
 
     if (experimentalInfo['SaveVideo']):
         import os
