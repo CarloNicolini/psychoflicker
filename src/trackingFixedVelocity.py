@@ -387,7 +387,7 @@ def startExperiment():
             maxTrials *= 2
 
         output = open(outputfile + "_fixed_tracking.txt", 'w')
-        output.write('Trial\tNTrial\tTrial Condition\tResponse\n')
+        output.write('Trial\tNTrial\tTrial Condition\tResponse\tStartTime\n')
 
         # Generate a list of balanced random conditions
         allConditions = []
@@ -432,7 +432,21 @@ def startExperiment():
             print thisCondition
 
         n = 0
+        expClock = core.Clock()
+        trigger_received = False # Indicates whether it received the '=' symbol from the fMRI (or from the keyboard)
+        while not trigger_received:
+            win.flip()
+            triggerKeys = event.getKeys()
+            if '=' in triggerKeys:
+                trigger_received = True
+                expClock.reset()
+            if 'escape' in keys:
+                win.close()
+                core.quit()
+            event.clearEvents(eventType='keyboard')
+
         for thisCondition in allConditions:
+            t0 = expClock.getTime()
             if expInfo['Block'] == 'Unilateral':
                 if nTrialCounter['Unilateral-Left'] > maxTrials and nTrialCounter['Unilateral-Right'] > maxTrials:
                     break
@@ -460,8 +474,7 @@ def startExperiment():
                     win, expInfo, speedValue, thisCondition, expInfo['SimulationMode'])
                 responses[thisCondition['label']].append(thisResp)
 
-                output.write(str(n) + "\t" + str(nTrialCounter[thisCondition['label']]) + "\t" + thisCondition['label'] + "\t" + str(int(thisResp)) +
-                             "\n")
+                output.write(str(n) + "\t" + str(nTrialCounter[thisCondition['label']]) + "\t" + thisCondition['label'] + "\t" + str(int(thisResp)) + "\t" + str(t0) + "\n")
             nTrialCounter[thisCondition['label']] += 1
             n += 1
         experiment_finished(win)
