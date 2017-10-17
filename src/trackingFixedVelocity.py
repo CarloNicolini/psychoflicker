@@ -444,7 +444,7 @@ def startExperiment():
             win.flip()
             triggerKeys = event.getKeys()
             if '=' in triggerKeys:
-                trigger_received = Truegit pul
+                trigger_received = True
                 expClock.reset()
             if 'escape' in triggerKeys:
                 win.close()
