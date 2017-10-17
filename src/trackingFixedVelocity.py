@@ -440,7 +440,7 @@ def startExperiment():
             if '=' in triggerKeys:
                 trigger_received = True
                 expClock.reset()
-            if 'escape' in keys:
+            if 'escape' in triggerKeys:
                 win.close()
                 core.quit()
             event.clearEvents(eventType='keyboard')
