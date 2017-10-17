@@ -6,7 +6,7 @@ from common.psycho_init import set_output_file, save_experimental_settings
 from common.show_instructions import show_instructions
 from psychopy import core
 from common import Ball
-
+from psychopy import visual, event
 
 def setupExperiment():
     from psychopy import gui
@@ -176,7 +176,7 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
     3) Start blinking 2 balls in the left or right zone, for unilateral, in both zones for bilateral
     4) Move the balls in random directions, bouncing on walls and on theirselves
     """
-    from psychopy import visual, event
+    
     # Generate a list of 4 balls on left side for unilateral condition
     trialClock = core.Clock()
     rectWidth, rectHeight = experimentalInfo[
