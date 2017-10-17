@@ -25,6 +25,7 @@ def setupExperiment():
                'Duration': 2,
                'BlinkTime': 1,
                'SimulationMode': False,
+               'MaxAnswerTime' : 2,
                'DrawRectangles': False
                }
 
@@ -298,6 +299,7 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
     trialClock.reset()
     responseKey = None
     response = None
+    time_exceeded = False
     while True:
         keys = event.getKeys()
         fixationBall.draw()
@@ -314,6 +316,10 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
         if 'd' in keys:
             responseKey = False
             response = responseKey == (randomBall in blinkingBalls)
+            trialClock.reset()
+
+        if trialClock.getTime() > experimentalInfo['MaxAnswerTime']:
+            response = -1
             trialClock.reset()
 
         # Plot the green/red dot for 0.5 seconds
@@ -438,7 +444,7 @@ def startExperiment():
             win.flip()
             triggerKeys = event.getKeys()
             if '=' in triggerKeys:
-                trigger_received = True
+                trigger_received = Truegit pul
                 expClock.reset()
             if 'escape' in triggerKeys:
                 win.close()
