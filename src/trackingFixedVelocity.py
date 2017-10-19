@@ -327,21 +327,19 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
         if 'escape' in keys:
             win.close()
             core.quit()
-        win.flip()
-
+        
         if response is True:
             fixationBall.setColor('Green')
         if response is False:
             fixationBall.setColor('Red')
-
-        # trialClock.reset()
-        # while trialClock.getTime() < 0.4:
-        #     keys = event.getKeys()
-        #     fixationBall.draw()
-        # for ballListID, ballList in allBallsList.iteritems():
-        #     for ball1 in ballList:
-        #         ball1.draw()
-        #     randomBall.draw()
+        fixationBall.draw()
+        win.flip()
+        
+        fixationBall.draw()
+        for ballListID, ballList in allBallsList.iteritems():
+             for ball1 in ballList:
+                 ball1.draw()
+             randomBall.draw()
         win.flip()
 
 
