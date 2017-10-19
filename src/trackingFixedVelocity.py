@@ -308,12 +308,12 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
                 ball1.draw()
         randomBall.draw()
 
-        if 's' in keys:
+        if '1' in keys: #would you put in next line core.wait() until trialClock.getTime() > experimentalInfo['MaxAnswerTime'] OR wait with blank screen at line 338 until 2 seconds complete
             responseKey = True
             response = responseKey == (randomBall in blinkingBalls)
             trialClock.reset()
 
-        if 'd' in keys:
+        if '2' in keys:
             responseKey = False
             response = responseKey == (randomBall in blinkingBalls)
             trialClock.reset()
@@ -442,8 +442,8 @@ def startExperiment():
         trigger_received = False # Indicates whether it received the '=' symbol from the fMRI (or from the keyboard)
         while not trigger_received:
             win.flip()
-            triggerKeys = event.getKeys()
-            if '=' in triggerKeys:
+            triggerKeys = event.getKeys(keyList=['equal'])
+            if len(triggerKeys)>0: #'=' in triggerKeys: ##
                 trigger_received = True
                 expClock.reset()
             if 'escape' in triggerKeys:
