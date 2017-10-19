@@ -27,6 +27,7 @@ def setupExperiment():
                'SimulationMode': False,
                'MaxAnswerTime' : 2,
                'TotalTrialTime' : 6,
+               'MagneticStabTime' : 12,
                'DrawRectangles': False
                }
 
@@ -50,6 +51,7 @@ def setupExperiment():
                               'Duration': 'Duration of the stimulus in seconds',
                               'MaxAnswerTime' : 'Maximum limit time for the subject response in seconds',
                               'TotalTrialTime' : 'Total time for each trial in seconds',
+                              'MagneticStabTime' : 'Interval for the magnetic stabilization of the B  field',
                               'BlinkTime': 'Time of white/black ball blinking in seconds',
                               'SimulationMode': 'Run the experiment with a perfect cumulative normal observer'
                           })
@@ -497,6 +499,11 @@ def startExperiment():
                 win.close()
                 core.quit()
             event.clearEvents(eventType='keyboard')
+
+        magneticTimeClock = core.Clock()
+        magneticTimeClock.reset()
+        while magneticTimeClock.getTime() < experimentalInfo['MagneticStabTime']
+            win.flip()
 
         for thisCondition in allConditions:
             t0 = expClock.getTime()
