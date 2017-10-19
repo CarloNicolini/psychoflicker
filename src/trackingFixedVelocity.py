@@ -296,56 +296,102 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
     randomBall.setColor('Red')
     event.clearEvents(eventType='keyboard')
 
-    trialClock.reset()
     responseKey = None
     response = None
     time_exceeded = False
-    while True:
-        keys = event.getKeys()
+
+    trialClock.reset()
+    has_answered = False
+    answerclock = core.Clock()
+    answerclock.reset()
+    response = -1 # default response if the subject does not answer
+    # Wait 'MaxAnswerTime' seconds if both the answer is given by the subject or not.
+    while answerclock.getTime() < experimentalInfo['MaxAnswerTime']:
         fixationBall.draw()
         for ballListID, ballList in allBallsList.iteritems():
             for ball1 in ballList:
                 ball1.draw()
         randomBall.draw()
+        keys = event.getKeys()
+        if not has_answered:
+            if '1' in keys:
+                responseKey = True
+                response = responseKey == (randomBall in blinkingBalls)
+                trialClock.reset()
 
-        if '1' in keys: #would you put in next line core.wait() until trialClock.getTime() > experimentalInfo['MaxAnswerTime'] OR wait with blank screen at line 338 until 2 seconds complete
-            responseKey = True
-            response = responseKey == (randomBall in blinkingBalls)
-            trialClock.reset()
-
-        if '2' in keys:
-            responseKey = False
-            response = responseKey == (randomBall in blinkingBalls)
-            trialClock.reset()
-
-        if trialClock.getTime() > experimentalInfo['MaxAnswerTime']:
-            response = -1
-            trialClock.reset()
-
-        # Plot the green/red dot for 0.5 seconds
-        if response != None:
-            break
+            if '2' in keys:
+                responseKey = False
+                response = responseKey == (randomBall in blinkingBalls)
+                trialClock.reset()
 
         if 'escape' in keys:
             win.close()
             core.quit()
         win.flip()
 
-    if response is True:
-        fixationBall.setColor('Green')
-    if response is False:
-        fixationBall.setColor('Red')
+        if response is True:
+            fixationBall.setColor('Green')
+        if response is False:
+            fixationBall.setColor('Red')
 
-    trialClock.reset()
-    while trialClock.getTime() < 0.4:
-        keys = event.getKeys()
-        fixationBall.draw()
-        for ballListID, ballList in allBallsList.iteritems():
-            for ball1 in ballList:
-                ball1.draw()
-        randomBall.draw()
-
+        # trialClock.reset()
+        # while trialClock.getTime() < 0.4:
+        #     keys = event.getKeys()
+        #     fixationBall.draw()
+        # for ballListID, ballList in allBallsList.iteritems():
+        #     for ball1 in ballList:
+        #         ball1.draw()
+        #     randomBall.draw()
         win.flip()
+
+
+    # PREVIOUS LOOP
+    # while True:
+    #     keys = event.getKeys()
+    #     fixationBall.draw()
+    #     for ballListID, ballList in allBallsList.iteritems():
+    #         for ball1 in ballList:
+    #             ball1.draw()
+    #     randomBall.draw()
+
+    #     if '1' in keys: #would you put in next line core.wait() until trialClock.getTime() > experimentalInfo['MaxAnswerTime'] OR wait with blank screen at line 338 until 2 seconds complete
+    #         responseKey = True
+    #         response = responseKey == (randomBall in blinkingBalls)
+    #         trialClock.reset()
+
+    #     if '2' in keys:
+    #         responseKey = False
+    #         response = responseKey == (randomBall in blinkingBalls)
+    #         trialClock.reset()
+
+    #     if trialClock.getTime() > experimentalInfo['MaxAnswerTime']:
+    #         response = -1
+    #         trialClock.reset()
+
+    #     # Plot the green/red dot for 0.5 seconds
+    #     if response != None:
+    #         break
+
+    #     if 'escape' in keys:
+    #         win.close()
+    #         core.quit()
+    #     win.flip()
+
+    # if response is True:
+    #     fixationBall.setColor('Green')
+    # if response is False:
+    #     fixationBall.setColor('Red')
+
+    # trialClock.reset()
+    # while trialClock.getTime() < 0.4:
+    #     keys = event.getKeys()
+    #     fixationBall.draw()
+    #     for ballListID, ballList in allBallsList.iteritems():
+    #         for ball1 in ballList:
+    #             ball1.draw()
+    #     randomBall.draw()
+
+    #     win.flip()
 
     return response
 
