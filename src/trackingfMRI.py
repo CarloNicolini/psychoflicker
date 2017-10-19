@@ -311,7 +311,9 @@ def trackingTrial(win, experimentalInfo, ballSpeed, thisCondition, simulation=Fa
     answerclock.reset()
     response = -1  # default response if the subject does not answer
     # Wait 'MaxAnswerTime' seconds if both the answer is given by the subject or not.
-    while answerclock.getTime() < experimentalInfo['MaxAnswerTime'] and (totalTrialClock.getTime() < experimentalInfo['TotalTrialTime']):
+    xTimer = core.Clock()
+    xTimer.reset()
+    while (totalTrialClock.getTime() < experimentalInfo['TotalTrialTime']):
         fixationBall.draw()
         for ballListID, ballList in allBallsList.iteritems():
             for ball1 in ballList:
@@ -483,8 +485,8 @@ def startExperiment():
             from random import shuffle
             shuffle(allConditions)
 
-        for thisCondition in allConditions:
-            print thisCondition
+        #for thisCondition in allConditions:
+        #    print thisCondition
 
         n = 0
         expClock = core.Clock()
@@ -502,7 +504,7 @@ def startExperiment():
 
         magneticTimeClock = core.Clock()
         magneticTimeClock.reset()
-        while magneticTimeClock.getTime() < experimentalInfo['MagneticStabTime']
+        while magneticTimeClock.getTime() < expInfo['MagneticStabTime']:
             win.flip()
 
         for thisCondition in allConditions:
