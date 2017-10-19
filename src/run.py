@@ -11,8 +11,10 @@ def show_run(exp_text):
         from psychopy import core
         core.quit()
 
-experiments = ['TrackingStaircase', 'TrackingFixed',
+
+experiments = ['TrackingStaircase', 'TrackingFixed', 'TrackingfMRI',
                'Tracking', 'Flicker', 'FlickerFixed']
+
 exp = {'Experiment': experiments}
 
 dlg = gui.DlgFromDict(dictionary=exp, title='SELECT EXPERIMENT')
@@ -21,6 +23,10 @@ if exp['Experiment'] == 'TrackingStaircase':
     show_run('Starting trackingExperiment2Staircase')
     import trackingExperiment2Staircase
     trackingExperiment2Staircase.startExperiment()
+elif exp['Experiment'] == 'TrackingfmRI':
+    show_run('Starting trackingfMRI')
+    import trackingfMRI
+    trackingfMRI.startExperiment()
 elif exp['Experiment'] == 'TrackingFixed':
     show_run('Starting trackingFixedVelocity')
     import trackingFixedVelocity
